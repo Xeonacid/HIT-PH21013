@@ -2,17 +2,21 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import make_interp_spline
 
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.title('两种太阳能电池开路电压随光强变化曲线')
 plt.xlabel('光强I(W/m^2)')
 plt.ylabel('开路电压Voc(V)')
-x = [740, 397, 239, 158.4, 114.0, 86.4, 67.7, 55.7]
-y = [2.82, 2.70, 2.62, 2.55, 2.50, 2.46, 2.42, 2.38]
-plt.plot(x, y, label = '单晶硅')
+x = np.array([700,365,215,144,104,79,63,51])[::-1]
+y = np.array([2.72,2.60,2.50,2.41,2.32,2.23,2.14,2.05])[::-1]
+x_smooth = np.linspace(x.min(), x.max(), 300)
+y_smooth = make_interp_spline(x, y)(x_smooth)
+plt.plot(x_smooth, y_smooth, label = '单晶硅',linestyle='-')
 plt.plot(x, y, 'o')
-y = [3.06, 2.99, 2.92, 2.87, 2.81, 2.77, 2.73, 2.69]
-plt.plot(x, y, label = '非晶硅')
+y = np.array([3.01,2.78,2.46,2.16,1.91,1.70,1.51,1.34])[::-1]
+y_smooth = make_interp_spline(x, y)(x_smooth)
+plt.plot(x_smooth, y_smooth, label = '非晶硅',linestyle='--')
 plt.plot(x, y, 'o')
 plt.legend()
 plt.show()
@@ -21,12 +25,12 @@ plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.title('两种太阳能电池短路电流随光强变化曲线')
 plt.xlabel('光强I(W/m^2)')
 plt.ylabel('短路电流Isc(mA)')
-x = [740, 397, 239, 158.4, 114.0, 86.4, 67.7, 55.7]
-y = [77.6, 42.0, 26.2, 17.7, 13.0, 9.9, 7.7, 6.3]
-plt.plot(x, y, label = '单晶硅')
+x = np.array([700,365,215,144,104,79,63,51])
+y = np.array([73.1,39.9,23.0,16.2,11.7,9.0,7.1,5.8])
+plt.plot(x, y, label = '单晶硅',linestyle='-')
 plt.plot(x, y, 'o')
-y = [8.9, 4.8, 3.0, 2.0, 1.501, 1.149, 0.902, 0.726]
-plt.plot(x, y, label = '非晶硅')
+y = np.array([7.9,4.3,2.6,1.7,1.3,1.0,0.8,0.6])
+plt.plot(x, y, label = '非晶硅',linestyle='--')
 plt.plot(x, y, 'o')
 plt.legend()
 plt.show()
